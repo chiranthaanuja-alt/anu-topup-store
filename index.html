@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANU TOP UP STORE LK & Digital Hub</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #0c1017;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.15) 0px, transparent 50%);
+            color: #f1f5f9;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0;
+        }
+
+        /* Mobile App View Wrapper */
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            min-height: 100vh;
+            background: rgba(15, 23, 42, 0.95);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Top Bar */
+        .app-topbar {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-logo i {
+            font-size: 24px;
+            color: #38bdf8;
+            filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.5));
+        }
+
+        .brand-logo h1 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+        }
+
+        .brand-subtitle {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            display: block;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 20px 16px 40px 16px;
+        }
+
+        /* Hide Pages */
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Banner Page 1 */
+        .hero-card {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 240px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 10%, rgba(15, 23, 42, 0.4) 60%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+        }
+
+        .hero-overlay h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .hero-overlay p {
+            font-size: 0.85rem;
+            color: #38bdf8;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        .welcome-box {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(8px);
+        }
+
+        .welcome-box h3 {
+            font-size: 1.1rem;
+            color: #f8fafc;
+            margin-bottom: 6px;
+        }
+
+        .welcome-box p {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(2, 132, 199, 0.35);
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-subtext {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #e0f2fe;
+            margin-top: 2px;
+        }
+
+        .btn-back {
+            width: 100%;
+            padding: 12px;
+            background: rgba(30, 41, 59, 0.8);
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+            transition: 0.2s;
+        }
+
+        .btn-back:active {
+            background: rgba(51, 65, 85, 0.8);
+            color: #ffffff;
+        }
+
+        /* Category Grid */
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .category-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            height: 110px;
+            background: #1e293b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .category-card:active {
+            transform: scale(0.98);
+            border-color: #38bdf8;
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.45;
+        }
+
+        .category-card-content {
+            position: absolute;
+            inset: 0;
+            padding: 16px;
+            background: linear-gradient(90deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.6) 70%, transparent 100%);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .category-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #38bdf8;
+            flex-shrink: 0;
+        }
+
+        .category-info h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .category-info p.sub-en {
+            font-size: 0.75rem;
+            color: #38bdf8;
+            font-weight: 600;
+        }
+
+        .category-info p.sub-si {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        /* Form Sub-Pages */
+        .form-header {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            height: 130px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.5;
+        }
+
+        .form-header-title {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, #0f172a 10%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 16px;
+        }
+
+        .form-header-title h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .form-header-title span {
+            font-size: 0.75rem;
+            color: #38bdf8;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 6px;
+        }
+
+        .form-group label small {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            font-weight: 400;
+            margin-left: 4px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        /* Payment Details Box */
+        .payment-card {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 14px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+
+        .payment-card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #34d399;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .payment-row {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+
+        .payment-row strong {
+            color: #ffffff;
+        }
+
+        .payment-row .highlight {
+            color: #f59e0b;
+            font-weight: 700;
+        }
+
+        /* WhatsApp Button */
+        .btn-whatsapp {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(22, 163, 74, 0.35);
+            transition: all 0.2s ease;
+        }
+
+        .btn-whatsapp:active {
+            transform: scale(0.98);
+        }
+
+        .notice-badge {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #fbbf24;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- Top Sticky Header Bar -->
+        <div class="app-topbar">
+            <div class="brand-logo">
+                <i class="fas fa-gamepad"></i>
+                <div>
+                    <h1>ANU TOP UP STORE LK</h1>
+                    <span class="brand-subtitle">Digital & Gaming Services Hub</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-area">
+
+            <!-- PAGE 1: LANDING PAGE -->
+            <div id="page1" class="page active">
+                <div class="hero-card">
+                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80" alt="Gaming Setup">
+                    <div class="hero-overlay">
+                        <h2>Top-Up & Digital Hub</h2>
+                        <p>Fast • Reliable • Lowest Rates</p>
+                    </div>
+                </div>
+
+                <div class="welcome-box">
+                    <h3>WELCOME / සාදරයෙන් පිළිගනිමු</h3>
+                    <p>Free Fire, PUBG, Premium AI Accounts, Sinhala/English Typing & Professional Custom Website Development.</p>
+                </div>
+
+                <button class="btn-primary" onclick="showPage('page2')">
+                    <span>NEXT PAGE</span>
+                    <span class="btn-subtext">ඉදිරියට යන්න</span>
+                </button>
+            </div>
+
+            <!-- PAGE 2: CATEGORY SELECTION -->
+            <div id="page2" class="page">
+                <div style="margin-bottom: 20px;">
+                    <h2 style="font-size: 1.3rem; color: #ffffff; font-weight: 800;">SELECT SERVICE</h2>
+                    <p style="font-size: 0.8rem; color: #94a3b8;">ඔබට අවශ්‍ය සේවාව පහතින් තෝරන්න</p>
+                </div>
+
+                <div class="category-list">
+                    <!-- Free Fire -->
+                    <div class="category-card" onclick="showPage('pageFF')">
+                        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=600&q=80" alt="Free Fire">
+                        <div class="category-card-content">
+                            <div class="category-icon" style="color: #f97316; border-color: rgba(249, 115, 22, 0.4);">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div class="category-info">
+                                <h4>FREE FIRE TOP-UP</h4>
+                                <p class="sub-en">Diamonds, Weekly & Monthly Passes</p>
+                                <p class="sub-si">ඩයමන්ඩ් සහ මෙම්බර්ෂිප් ලබා ගැනීම</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PUBG Mobile -->
+                    <div class="category-card" onclick="showPage('pagePUBG')">
+                        <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=600&q=80" alt="PUBG Mobile">
+                        <div class="category-card-content">
+                            <div class="category-icon" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);">
+                                <i class="fas fa-crosshairs"></i>
+                            </div>
+                            <div class="category-info">
+                                <h4>PUBG MOBILE UC</h4>
+                                <p class="sub-en">Global UC & Elite Royale Passes</p>
+                                <p class="sub-si">PUBG UC ටොප්-අප් සේවාව</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Digital Accounts -->
+                    <div class="category-card" onclick="showPage('pageDigital')">
+                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" alt="Digital Accounts">
+                        <div class="category-card-content">
+                            <div class="category-icon" style="color: #10b981; border-color: rgba(16, 185, 129, 0.4);">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="category-info">
+                                <h4>DIGITAL ACCOUNTS</h4>
+                                <p class="sub-en">ChatGPT Plus & Canva Pro Access</p>
+                                <p class="sub-si">ප්‍රීමියම් AI සහ ඩිජිටල් ගිණුම්</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Typing & Printing -->
+                    <div class="category-card" onclick="showPage('pageTyping')">
+                        <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80" alt="Typing Services">
+                        <div class="category-card-content">
+                            <div class="category-icon" style="color: #ec4899; border-color: rgba(236, 72, 153, 0.4);">
+                                <i class="fas fa-print"></i>
+                            </div>
+                            <div class="category-info">
+                                <h4>TYPING & PRINTING</h4>
+                                <p class="sub-en">Sinhala/English Typing & Thumbnails</p>
+                                <p class="sub-si">ටයිපින් සහ ඩිජිටල් සකස් කිරීම්</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Web Development & Coding -->
+                    <div class="category-card" onclick="showPage('pageCoding')">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80" alt="Coding & Web Dev">
+                        <div class="category-card-content">
+                            <div class="category-icon" style="color: #eab308; border-color: rgba(234, 179, 8, 0.4);">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="category-info">
+                                <h4>WEB DEVELOPMENT</h4>
+                                <p class="sub-en">Custom Websites starting from LKR 250</p>
+                                <p class="sub-si">වෙබ් අඩවි නිර්මාණය (රු. 250 සිට)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-back" onclick="showPage('page1')">
+                    <span>BACK</span>
+                    <span style="font-size:0.7rem; font-weight:400;">ආපසු යන්න</span>
+                </button>
+            </div>
+
+            <!-- SUB-PAGE: FREE FIRE -->
+            <div id="pageFF" class="page">
+                <div class="form-header">
+                    <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=600&q=80" alt="Free Fire Banner">
+                    <div class="form-header-title">
+                        <h3>FREE FIRE TOP-UP</h3>
+                        <span>Diamonds & Membership Orders</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>PLAYER ID <small>(අනිවාර්යයි)</small></label>
+                    <input type="text" id="ffId" class="form-control" placeholder="Enter Free Fire Player ID">
+                </div>
+
+                <div class="form-group">
+                    <label>PLAYER NAME <small>(නම - Optional)</small></label>
+                    <input type="text" id="ffName" class="form-control" placeholder="Enter In-Game Name">
+                </div>
+
+                <div class="form-group">
+                    <label>SELECT PACKAGE <small>(පැකේජය තෝරන්න)</small></label>
+                    <select id="ffPkg" class="form-control">
+                        <optgroup label="Memberships">
+                            <option value="Weekly Lite - LKR 135">Weekly Lite - LKR 135</option>
+                            <option value="Weekly Membership - LKR 580">Weekly Membership - LKR 580</option>
+                            <option value="Monthly Membership - LKR 2790">Monthly Membership - LKR 2790</option>
+                        </optgroup>
+                        <optgroup label="Diamonds">
+                            <option value="25 Diamonds - LKR 125">25 Diamonds - LKR 125</option>
+                            <option value="100 Diamonds - LKR 355">100 Diamonds - LKR 355</option>
+                            <option value="310 Diamonds - LKR 1005">310 Diamonds - LKR 1005</option>
+                            <option value="520 Diamonds - LKR 1705">520 Diamonds - LKR 1705</option>
+                            <option value="1060 Diamonds - LKR 3305">1060 Diamonds - LKR 3305</option>
+                            <option value="2180 Diamonds - LKR 6505">2180 Diamonds - LKR 6505</option>
+                        </optgroup>
+                        <optgroup label="Passes & VIP">
+                            <option value="VIP Bundle - LKR 3365">VIP Bundle - LKR 3365</option>
+                            <option value="Level Up Pass L6 - LKR 95">Level Up Pass L6 - LKR 95</option>
+                            <option value="Level Up Pass L10-25 - LKR 200">Level Up Pass L10-25 - LKR 200</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <!-- Payment Info -->
+                <div class="payment-card">
+                    <div class="payment-card-header">
+                        <i class="fas fa-university"></i> PAYMENT METHODS (ගෙවීම් විස්තර)
+                    </div>
+                    <div class="payment-row">
+                        🏦 <strong>Commercial Bank</strong><br>
+                        • Name: <strong>Mr. D.G.P.S. Chandrasekara</strong><br>
+                        • Account No: <strong style="color:#38bdf8;">8140907085</strong>
+                    </div>
+                    <div class="payment-row">
+                        📱 <strong>eZ Cash Payment</strong><br>
+                        • Number: <strong class="highlight">077 80 64 736</strong><br>
+                        <small style="color:#fbbf24;">*(eZ Cash ගෙවීමේදී රුපියල් 20ක් එකතු කර ගෙවන්න)</small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>ATTACH RECEIPT PHOTO <small>(රිසිට්පත තෝරන්න)</small></label>
+                    <input type="file" id="ffFile" class="form-control" accept="image/*">
+                </div>
+
+                <button class="btn-whatsapp" onclick="sendOrder('Free Fire')">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>ORDER VIA WHATSAPP</span>
+                    <span class="btn-subtext">WhatsApp හරහා ඇණවුම් කරන්න</span>
+                </button>
+
+                <div class="notice-badge">
+                    📌 <strong>Note:</strong> ඔබ Upload කළ රිසිට්පත ඊළඟට ඕපන් වන WhatsApp Chat එකට Attach කර Send කරන්න.
+                </div>
+
+                <button class="btn-back" onclick="showPage('page2')">
+                    <span>BACK</span>
+                    <span style="font-size:0.7rem; font-weight:400;">ආපසු යන්න</span>
+                </button>
+            </div>
+
+            <!-- SUB-PAGE: PUBG MOBILE -->
+            <div id="pagePUBG" class="page">
+                <div class="form-header">
+                    <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=600&q=80" alt="PUBG Banner">
+                    <div class="form-header-title">
+                        <h3>PUBG MOBILE UC</h3>
+                        <span>Global UC Top-Up Orders</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>CHARACTER ID <small>(අනිවාර්යයි)</small></label>
+                    <input type="text" id="pubgId" class="form-control" placeholder="Enter PUBG Character ID">
+                </div>
+
+                <div class="form-group">
+                    <label>CHARACTER NAME <small>(නම - Optional)</small></label>
+                    <input type="text" id="pubgName" class="form-control" placeholder="Enter Character Name">
+                </div>
+
+                <div class="form-group">
+                    <label>SELECT UC PACKAGE <small>(UC පැකේජය තෝරන්න)</small></label>
+                    <select id="pubgPkg" class="form-control">
+                        <option value="60 UC - LKR 380">60 UC - LKR 380</option>
+                        <option value="300+25 UC - LKR 1850">300+25 UC - LKR 1850</option>
+                        <option value="600+60 UC - LKR 3600">600+60 UC - LKR 3600</option>
+                        <option value="1500+300 UC - LKR 9200">1500+300 UC - LKR 9200</option>
+                    </select>
+                </div>
+
+                <!-- Payment Info -->
+                <div class="payment-card">
+                    <div class="payment-card-header">
+                        <i class="fas fa-university"></i> PAYMENT METHODS
+                    </div>
+                    <div class="payment-row">
+                        🏦 <strong>Commercial Bank</strong><br>
+                        • Name: <strong>Mr. D.G.P.S. Chandrasekara</strong><br>
+                        • Account No: <strong style="color:#38bdf8;">8140907085</strong>
+                    </div>
+                    <div class="payment-row">
+                        📱 <strong>eZ Cash Payment</strong><br>
+                        • Number: <strong class="highlight">077 80 64 736</strong> (+Rs.20)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>ATTACH RECEIPT PHOTO <small>(රිසිට්පත)</small></label>
+                    <input type="file" id="pubgFile" class="form-control" accept="image/*">
+                </div>
+
+                <button class="btn-whatsapp" onclick="sendOrder('PUBG Mobile')">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>ORDER VIA WHATSAPP</span>
+                    <span class="btn-subtext">WhatsApp හරහා ඇණවුම් කරන්න</span>
+                </button>
+
+                <button class="btn-back" onclick="showPage('page2')">
+                    <span>BACK</span>
+                    <span style="font-size:0.7rem; font-weight:400;">ආපසු යන්න</span>
+                </button>
+            </div>
+
+            <!-- SUB-PAGE: DIGITAL ACCOUNTS -->
+            <div id="pageDigital" class="page">
+                <div class="form-header">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" alt="Digital Banner">
+                    <div class="form-header-title">
+                        <h3>DIGITAL ACCOUNTS</h3>
+                        <span>ChatGPT Plus & Canva Pro Access</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>SELECT SERVICE <small>(සේවාව තෝරන්න)</small></label>
+                    <select id="digitalPkg" class="form-control">
+                        <option value="ChatGPT Plus Account">ChatGPT Plus Premium Account</option>
+                        <option value="Canva Pro / Plus Account">Canva Pro / Plus Premium Account</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>ADDITIONAL DETAILS <small>(විස්තර / අවශ්‍යතා)</small></label>
+                    <input type="text" id="digitalNote" class="form-control" placeholder="විස්තර ඇත්නම් සටහන් කරන්න">
+                </div>
+
+                <!-- Payment Info -->
+                <div class="payment-card">
+                    <div class="payment-card-header">
+                        <i class="fas fa-university"></i> PAYMENT METHODS
+                    </div>
+                    <div class="payment-row">
+                        🏦 Commercial Bank: <strong style="color:#38bdf8;">8140907085</strong> (Mr. D.G.P.S. Chandrasekara)
+                    </div>
+                    <div class="payment-row">
+                        📱 eZ Cash: <strong class="highlight">077 80 64 736</strong> (+Rs.20)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>ATTACH RECEIPT PHOTO <small>(රිසිට්පත)</small></label>
+                    <input type="file" id="digitalFile" class="form-control" accept="image/*">
+                </div>
+
+                <button class="btn-whatsapp" onclick="sendOrder('Digital Account')">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>ORDER VIA WHATSAPP</span>
+                    <span class="btn-subtext">WhatsApp හරහා ඇණවුම් කරන්න</span>
+                </button>
+
+                <button class="btn-back" onclick="showPage('page2')">
+                    <span>BACK</span>
+                    <span style="font-size:0.7rem; font-weight:400;">ආපසු යන්න</span>
+                </button>
+            </div>
+
+            <!-- SUB-PAGE: TYPING & PRINTING -->
+            <div id="pageTyping" class="page">
+                <div class="form-header">
+                    <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80" alt="Typing Banner">
+                    <div class="form-header-title">
+                        <h3>TYPING & PRINTING</h3>
+                        <span>Sinhala/English Documents & Design</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>SELECT SERVICE <small>(සේවාව තෝරන්න)</small></label>
+                    <select id="typingPkg" class="form-control">
+                        <option value="English Typing (LKR 50 / page)">English Typing - LKR 50 per page</option>
+                        <option value="Sinhala Typing (LKR 70 / page)">Sinhala Typing - LKR 70 per page</option>
+                        <option value="Thumbnail Design (LKR 60)">YouTube Thumbnail Design - LKR 60</option>
+                        <option value="Data Entry & Word Services">Data Entry & Word Services</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>PAGE COUNT / DETAILS <small>(විස්තර හෝ පිටු ගණන)</small></label>
+                    <input type="text" id="typingNote" class="form-control" placeholder="පිටු ගණන හෝ විශේෂ උපදෙස්">
+                </div>
+
+                <div class="form-group">
+                    <label>ATTACH DOCUMENT / IMAGE <small>(අදාළ ෆයිල් එක)</small></label>
+                    <input type="file" id="typingFile" class="form-control">
+                </div>
+
+                <!-- Payment Info -->
+                <div class="payment-card">
+                    <div class="payment-card-header">
+                        <i class="fas fa-university"></i> PAYMENT METHODS
+                    </div>
+                    <div class="payment-row">
+                        🏦 Commercial Bank: <strong style="color:#38bdf8;">8140907085</strong> (Mr. D.G.P.S. Chandrasekara)
+                    </div>
+                    <div class="payment-row">
+                        📱 eZ Cash: <strong class="highlight">077 80 64 736</strong> (+Rs.20)
+                    </div>
+                </div>
+
+                <button class="btn-whatsapp" onclick="sendOrder('Typing & Printing')">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>SEND DETAILS VIA WHATSAPP</span>
+                    <span class="btn-subtext">WhatsApp හරහා විස්තර යවන්න</span>
+                </button>
+
+                <button class="btn-back" onclick="showPage('page2')">
+                    <span>BACK</span>
+                    <span style="font-size:0.7rem; font-weight:400;">ආපසු යන්න</span>
+                </button>
+            </div>
+
+            <!-- SUB-PAGE: WEB DEVELOPMENT & CODING -->
+            <div id="pageCoding" class="page">
+                <div class="form-header">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80" alt="Web Dev Banner">
+                    <div class="form-header-title">
+                        <h3>WEB DEVELOPMENT & CODING</h3>
+                        <span>Custom Websites starting from LKR 250</span>
+                    </div>
+                </div>
+
+                <div style="background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.3); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
+                    <p style="font-size: 0.85rem; color: #fef08a; line-height: 1.5; font-weight: 600;">
+                        🌐 <b>Custom Website Creation Service</b><br>
+                        ඔබට අවශ්‍ය ආකාරයේ නවීන, ආකර්ෂණීය වෙබ් අඩවියක් රුපියල් <b>250 සිට</b> සාදාගත හැක.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label>PROJECT REQUIREMENTS <small>(අවශ්‍යතා විස්තර කරන්න)</small></label>
+                    <textarea id="codingText" class="form-control" placeholder="ඔබට අවශ්‍ය වෙබ් අඩවිය හෝ කෝඩින් ව්‍යාපෘතිය ගැන විස්තර කරන්න..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>ATTACH REFERENCE FILE <small>(අදාළ ෆයිල් එක - Optional)</small></label>
+                    <input type="file" id="codingFile" class="form-control">
+                </div>
+
+                <!-- Payment Info -->
+                <div class="payment-card">
+                    <div class="payment-card-header">
+                        <i class="fas fa-university"></i> PAYMENT METHODS
+                    </div>
+                    <div class="payment-row">
+                        🏦 Commercial Bank: <strong style="color:#38bdf8;">8140907085</strong> (Mr. D.G.P.S. Chandrasekara)
+                    </div>
+                    <div class="payment-row">
+                        📱 eZ Cash: <strong class="highlight">077 80 64 736</strong> (+Rs.20)
+                    </div>
+                </div>
+
+                <button class="btn-whatsapp" onclick="sendOrder('Coding Service')">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>REQUEST WEB / CODING VIA WHATSAPP</span>
+                    <span class="btn-subtext">WhatsApp හරහා විස්තර යවන්න</span>
+                </button>
+
+                <button class="btn-back" onclick="showPage('page2')">
+                    <span>BACK</span>
+                    <span style="font-size:0.7rem; font-weight:400;">ආපසු යන්න</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            let pages = ['page1', 'page2', 'pageFF', 'pagePUBG', 'pageDigital', 'pageTyping', 'pageCoding'];
+            pages.forEach(p => {
+                document.getElementById(p).classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function sendOrder(serviceType) {
+            let adminWhatsApp = "94778593734"; // Admin WhatsApp Number
+            let msg = "";
+            let fileAttached = false;
+
+            if(serviceType === 'Free Fire') {
+                let id = document.getElementById('ffId').value.trim();
+                let name = document.getElementById('ffName').value.trim();
+                let pkg = document.getElementById('ffPkg').value;
+                let file = document.getElementById('ffFile').files[0];
+                if(!id) { alert('කරුණාකර Free Fire Player ID එක ඇතුළත් කරන්න!'); return; }
+                if(file) fileAttached = true;
+                msg = `Hello ANU TOP UP STORE!\n\n🎮 *Free Fire Order*\n📦 Package: ${pkg}\n🆔 Player ID: ${id}\n👤 Player Name: ${name ? name : 'N/A'}`;
+            }
+            else if(serviceType === 'PUBG Mobile') {
+                let id = document.getElementById('pubgId').value.trim();
+                let name = document.getElementById('pubgName').value.trim();
+                let pkg = document.getElementById('pubgPkg').value;
+                let file = document.getElementById('pubgFile').files[0];
+                if(!id) { alert('කරුණාකර PUBG Character ID එක ඇතුළත් කරන්න!'); return; }
+                if(file) fileAttached = true;
+                msg = `Hello ANU TOP UP STORE!\n\n🎯 *PUBG Mobile Order*\n📦 Package: ${pkg}\n🆔 Character ID: ${id}\n👤 Character Name: ${name ? name : 'N/A'}`;
+            }
+            else if(serviceType === 'Digital Account') {
+                let pkg = document.getElementById('digitalPkg').value;
+                let note = document.getElementById('digitalNote').value.trim();
+                let file = document.getElementById('digitalFile').files[0];
+                if(file) fileAttached = true;
+                msg = `Hello ANU TOP UP STORE!\n\n🤖 *Digital Account Order*\n📦 Service: ${pkg}\n📝 Note: ${note ? note : 'N/A'}`;
+            }
+            else if(serviceType === 'Typing & Printing') {
+                let pkg = document.getElementById('typingPkg').value;
+                let note = document.getElementById('typingNote').value.trim();
+                let file = document.getElementById('typingFile').files[0];
+                if(file) fileAttached = true;
+                msg = `Hello ANU TOP UP STORE!\n\n🖨️ *Typing & Printing Order*\n📦 Service: ${pkg}\n📝 Details: ${note ? note : 'N/A'}`;
+            }
+            else if(serviceType === 'Coding Service') {
+                let text = document.getElementById('codingText').value.trim();
+                let file = document.getElementById('codingFile').files[0];
+                if(!text) { alert('කරුණාකර ඔබේ වෙබ් අඩවිය හෝ කෝඩින් අවශ්‍යතාවය ලියා දක්වන්න!'); return; }
+                if(file) fileAttached = true;
+                msg = `Hello ANU TOP UP STORE!\n\n💻 *Web Development / Coding Request*\n📝 Details: ${text}`;
+            }
+
+            if(fileAttached) {
+                msg += `\n\n📌 *Note:* මම වෙබ් අඩවිය හරහා Upload කළ File/Receipt එක ඊළඟට මෙතැනට Attach කර එවන්නෙමි.`;
+            }
+
+            let url = `https://wa.me/${adminWhatsApp}?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+
+</body>
+</html>
